@@ -1,9 +1,11 @@
 const express = require('express');
+const path = require('path');
 const convert = require('./convert');
 const health = require('./health');
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -24,6 +26,11 @@ app.post('/api/convert', (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+// Serve index.html for any other GET requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;

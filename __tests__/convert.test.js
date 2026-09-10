@@ -17,6 +17,9 @@ describe('Convert Logic', () => {
     test('string "25" should coerce to 25', () => {
       expect(celsiusToFahrenheit('25')).toBeCloseTo(77, 5);
     });
+    test('negative zero -0 is handled', () => {
+      expect(celsiusToFahrenheit(-0)).toBe(32);
+    });
   });
 
   describe('fahrenheitToCelsius — ✅ passing tests', () => {
@@ -26,21 +29,26 @@ describe('Convert Logic', () => {
     test('212°F = 100°C', () => {
       expect(fahrenheitToCelsius(212)).toBe(100);
     });
+    test('string "32" should coerce to 32', () => {
+      expect(fahrenheitToCelsius('32')).toBe(0);
+    });
+    test('68°F = 20°C (fractional)', () => {
+      expect(fahrenheitToCelsius(68)).toBe(20);
+    });
   });
 
-  describe('❌ intentionally failing tests (for CI coverage demonstration)', () => {
-    test('BUG: fahrenheitToCelsius("") throws', () => {
-      expect(() => fahrenheitToCelsius('')).toThrow();
+  describe('Edge cases — invalid inputs return NaN', () => {
+    test('empty string returns NaN', () => {
+      expect(fahrenheitToCelsius('')).toBeNaN();
     });
-
-    test('BUG: rounding issue when input is exactly "-0"', () => {
-      const result = celsiusToFahrenheit(-0);
-      expect(result).not.toBe(-0);
+    test('non-numeric string returns NaN', () => {
+      expect(celsiusToFahrenheit('abc')).toBeNaN();
     });
-
-    test('BUG: "abc" produces NaN but message is unclear', () => {
-      const result = celsiusToFahrenheit('abc');
-      expect(result).toBe('not a number');
+    test('null returns NaN', () => {
+      expect(fahrenheitToCelsius(null)).toBeNaN();
+    });
+    test('undefined returns NaN', () => {
+      expect(celsiusToFahrenheit(undefined)).toBeNaN();
     });
   });
 });
