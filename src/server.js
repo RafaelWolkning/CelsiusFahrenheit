@@ -9,22 +9,25 @@ app.use(express.static('public'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json(health.status);
+  res.json({ status: health.status, timestamp: health.timestamp });
 });
 
 // Temperature conversion API
 app.post('/api/convert', (req, res) => {
   try {
     const { value, unit } = req.body;
-    if (!value || !unit) {
+    if (value === undefined || unit === undefined) {
       return res.status(400).json({ error: 'Preciso de "valor" e "unidade"' });
     }
+    if (unit !== 'cf' && unit !== 'fc') {
+      return res.status(400).json({ error: 'Unidade inválida' });
+    }
     const fn = unit === 'cf' ? convert.celsiusToFahrenheit : convert.fahrenheitToCelsius;
-    const result = fn(Number(value));
+    const result = fn(value);
     if (Number.isNaN(result)) throw new Error('Valor inválido');
-    res.json({ value, unit, result });
+    res.json({ value: Number(value), unit, result });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 });
 
@@ -33,7 +36,11 @@ app.get('/*splat', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
+module.exports = app;
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
+}
