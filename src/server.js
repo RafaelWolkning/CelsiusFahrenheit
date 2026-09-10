@@ -12,22 +12,42 @@ app.get('/health', (req, res) => {
   res.json({ status: health.status, timestamp: health.timestamp });
 });
 
+function performConversion(value, unit) {
+  if (value === undefined || unit === undefined) {
+    const err = new Error('Preciso de "valor" e "unidade"');
+    err.status = 400;
+    throw err;
+  }
+  if (unit !== 'cf' && unit !== 'fc') {
+    const err = new Error('Unidade inválida');
+    err.status = 400;
+    throw err;
+  }
+  const fn = unit === 'cf' ? convert.celsiusToFahrenheit : convert.fahrenheitToCelsius;
+  const result = fn(value);
+  if (Number.isNaN(result)) {
+    const err = new Error('Valor inválido');
+    err.status = 400;
+    throw err;
+  }
+  return { value: Number(value), unit, result };
+}
+
 // Temperature conversion API
 app.post('/api/convert', (req, res) => {
   try {
-    const { value, unit } = req.body;
-    if (value === undefined || unit === undefined) {
-      return res.status(400).json({ error: 'Preciso de "valor" e "unidade"' });
-    }
-    if (unit !== 'cf' && unit !== 'fc') {
-      return res.status(400).json({ error: 'Unidade inválida' });
-    }
-    const fn = unit === 'cf' ? convert.celsiusToFahrenheit : convert.fahrenheitToCelsius;
-    const result = fn(value);
-    if (Number.isNaN(result)) throw new Error('Valor inválido');
-    res.json({ value: Number(value), unit, result });
+    res.json(performConversion(req.body.value, req.body.unit));
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(err.status || 500).json({ error: err.message });
+  }
+});
+
+// Temperature conversion API (GET, usada pelo frontend)
+app.get('/api/convert', (req, res) => {
+  try {
+    res.json(performConversion(req.query.value, req.query.unit));
+  } catch (err) {
+    res.status(err.status || 500).json({ error: err.message });
   }
 });
 

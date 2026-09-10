@@ -50,6 +50,32 @@ describe('API — POST /api/convert', () => {
   });
 });
 
+describe('API — GET /api/convert', () => {
+  test('100°C → 212°F via query string (usado pelo frontend)', async () => {
+    const res = await request(app).get('/api/convert?value=100&unit=cf');
+    expect(res.status).toBe(200);
+    expect(res.body.result).toBe(212);
+  });
+
+  test('212°F → 100°C via query string', async () => {
+    const res = await request(app).get('/api/convert?value=212&unit=fc');
+    expect(res.status).toBe(200);
+    expect(res.body.result).toBe(100);
+  });
+
+  test('missing params → 400', async () => {
+    const res = await request(app).get('/api/convert');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Preciso de "valor" e "unidade"');
+  });
+
+  test('invalid unit → 400', async () => {
+    const res = await request(app).get('/api/convert?value=100&unit=xx');
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe('Unidade inválida');
+  });
+});
+
 describe('API — Serve index.html', () => {
   test('GET / returns HTML', async () => {
     const res = await request(app).get('/');
