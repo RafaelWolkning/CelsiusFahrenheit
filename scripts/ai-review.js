@@ -29,13 +29,17 @@ function readFile(filePath) {
 
 function summarizeTests(testContent) {
   // Extract test names and descriptions
-  const testNames = testContent
-    .match(/test\(?\s*\)\s*\(([^)]+)/g)
-    .map(m => m.trim())
-    .filter(n => n.length > 0);
+  const matches = testContent.match(/test\(?\s*\)\s*\(([^)]+)/g);
+  const testNames = matches
+    ? matches.map(m => m.trim()).filter(n => n.length > 0)
+    : [];
   
+  // If no test names found, return empty summary
   if (testNames.length === 0) {
-    return 'No test cases found in the file.';
+    return {
+      total: 0,
+      grouped: {}
+    };
   }
   
   const uniqueTests = [...new Set(testNames)];
