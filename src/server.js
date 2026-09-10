@@ -28,8 +28,8 @@ app.post('/api/convert', (req, res) => {
   }
 });
 
-// Serve index.html for any other GET requests
-app.get('*', (req, res) => {
+// Catch-all: serve index.html for SPA routing
+app.get('/*splat', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
