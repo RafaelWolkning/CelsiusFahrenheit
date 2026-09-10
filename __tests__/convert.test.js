@@ -35,6 +35,12 @@ describe('Convert Logic', () => {
     test('68°F = 20°C (fractional)', () => {
       expect(fahrenheitToCelsius(68)).toBe(20);
     });
+    test('98.6°F ≈ 37°C redondeado a 2 decimales', () => {
+      expect(fahrenheitToCelsius(98.6)).toBe(37);
+    });
+    test('102°F ≈ 38.89°C redondeado a 2 decimales', () => {
+      expect(fahrenheitToCelsius(102)).toBe(38.89);
+    });
   });
 
   describe('Edge cases — invalid inputs return NaN', () => {
