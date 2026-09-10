@@ -16,10 +16,10 @@ provider "docker" {
 }
 
 resource "docker_image" "app" {
-  name         = "celsius-fahrenheit:latest"
   build {
-    path = ".."
+    context    = ".."
     dockerfile = "Dockerfile"
+    tag        = "celsius-fahrenheit:latest"
   }
 }
 
