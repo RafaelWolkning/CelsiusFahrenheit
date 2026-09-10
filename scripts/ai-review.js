@@ -13,7 +13,7 @@ let apiKey = null;
 try {
   require('dotenv').config();
   apiKey = process.env.OPENAI_API_KEY || null;
-} catch (_) {
+} catch {
   // No key or not configured – fall back to rule-based suggestions
   console.warn('No OpenAI key found – using rule-based suggestions only');
 }
