@@ -2,5 +2,7 @@ node_modules/
 .env
 .env.local
 coverage/
+coverage-web/
+dist/
 .DS_Store
 *.log

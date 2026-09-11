@@ -5,20 +5,35 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
+    "dev": "vite",
+    "build": "vite build",
+    "pretest": "vite build",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "lint": "eslint src/ __tests__/ scripts/",
-    "lint:fix": "eslint src/ __tests__/ scripts/ --fix",
+    "test:web": "vitest run --coverage",
+    "test:web:watch": "vitest",
+    "test:all": "npm test && npm run test:web",
+    "lint": "eslint src/ __tests__/ scripts/ client/",
+    "lint:fix": "eslint src/ __tests__/ scripts/ client/ --fix",
     "ai-review": "node scripts/ai-review.js",
     "terraform:plan": "cd terraform && terraform plan"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "vue": "^3.5.42"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/coverage-v8": "^5.0.0",
+    "@vue/test-utils": "^2.5.0",
     "eslint": "^9.39.5",
+    "eslint-plugin-vue": "^10.11.0",
+    "globals": "^17.12.0",
     "jest": "^30.2.0",
-    "supertest": "^7.2.2"
+    "jsdom": "^29.1.1",
+    "supertest": "^7.2.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0"
   }
 }
