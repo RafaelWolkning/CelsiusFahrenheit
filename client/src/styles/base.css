@@ -1,0 +1,108 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f2027;
+  overflow-x: hidden;
+}
+
+/* Tema padrão (antes de converter): mesmo visual escuro do projeto original */
+.app {
+  --bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --card-border: rgba(255, 255, 255, 0.2);
+  --card-shadow: rgba(0, 0, 0, 0.35);
+  --text: #fff;
+  --muted: rgba(255, 255, 255, 0.65);
+  --field-bg: rgba(255, 255, 255, 0.15);
+  --accent: #00d2ff;
+  --accent-hover: #00b8d9;
+  --accent-text: #00161c;
+  --error: #ff8a8a;
+
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app.climate-hot {
+  --card-bg: rgba(70, 18, 0, 0.38);
+  --card-border: rgba(255, 220, 150, 0.45);
+  --card-shadow: rgba(120, 20, 0, 0.45);
+  --text: #fff8e6;
+  --muted: rgba(255, 240, 210, 0.78);
+  --field-bg: rgba(255, 255, 255, 0.16);
+  --accent: #ffd23f;
+  --accent-hover: #ffc107;
+  --accent-text: #4a1500;
+  --error: #ffe3d6;
+}
+
+.app.climate-cold {
+  --card-bg: rgba(255, 255, 255, 0.55);
+  --card-border: rgba(255, 255, 255, 0.85);
+  --card-shadow: rgba(20, 60, 120, 0.35);
+  --text: #0b3561;
+  --muted: rgba(11, 53, 97, 0.68);
+  --field-bg: rgba(255, 255, 255, 0.7);
+  --accent: #1e6fd9;
+  --accent-hover: #1759b0;
+  --accent-text: #fff;
+  --error: #c62828;
+}
+
+.app.climate-mild {
+  --card-bg: rgba(255, 255, 255, 0.42);
+  --card-border: rgba(255, 255, 255, 0.75);
+  --card-shadow: rgba(0, 70, 110, 0.3);
+  --text: #073b4c;
+  --muted: rgba(7, 59, 76, 0.7);
+  --field-bg: rgba(255, 255, 255, 0.65);
+  --accent: #0288d1;
+  --accent-hover: #0277bd;
+  --accent-text: #fff;
+  --error: #c62828;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* Cross-fade entre os cenários */
+.scene-enter-active,
+.scene-leave-active {
+  transition: opacity 0.9s ease;
+}
+
+.scene-enter-from,
+.scene-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop *,
+  .backdrop *::before,
+  .backdrop *::after {
+    animation-play-state: paused !important;
+  }
+}
