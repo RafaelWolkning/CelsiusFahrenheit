@@ -24,6 +24,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Build frontend (Vite)
+        run: npm run build
+
       - name: Build (Docker)
         run: |
           docker build -t celsius-fahrenheit:latest .
@@ -48,6 +51,9 @@ jobs:
 
       - name: Run tests with coverage
         run: npm test
+
+      - name: Run frontend tests with coverage (Vitest)
+        run: npm run test:web
 
       - name: Run AI test reviewer
         run: npm run ai-review
