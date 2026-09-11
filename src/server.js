@@ -3,9 +3,12 @@ const path = require('path');
 const convert = require('./convert');
 const health = require('./health');
 
+// Frontend Vue compilado pelo Vite (npm run build)
+const DIST_DIR = path.join(__dirname, '../dist');
+
 const app = express();
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(DIST_DIR));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -53,7 +56,7 @@ app.get('/api/convert', (req, res) => {
 
 // Catch-all: serve index.html for SPA routing
 app.get('/*splat', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(DIST_DIR, 'index.html'));
 });
 
 module.exports = app;
