@@ -171,3 +171,4 @@ O pipeline é acionado automaticamente após o push.
 ## Autores
 
 - Rafael Wolkning
+- Lucas Aita
