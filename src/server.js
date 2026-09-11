@@ -55,7 +55,8 @@ app.get('/api/convert', (req, res) => {
 });
 
 // Catch-all: serve index.html for SPA routing
-app.get('/*splat', (req, res) => {
+// `{*splat}` também casa com "/" (no Express 5, `/*splat` exige ao menos um caractere)
+app.get('/{*splat}', (req, res) => {
   res.sendFile(path.join(DIST_DIR, 'index.html'));
 });
 
