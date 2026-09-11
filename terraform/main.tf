@@ -16,16 +16,17 @@ provider "docker" {
 }
 
 resource "docker_image" "app" {
+  name = "celsius-fahrenheit:latest"
   build {
     context    = ".."
     dockerfile = "Dockerfile"
-    tag        = "celsius-fahrenheit:latest"
+    tag        = ["celsius-fahrenheit:latest"]
   }
 }
 
 resource "docker_container" "app" {
   name  = "celsius-fahrenheit"
-  image = docker_image.app.latest
+  image = docker_image.app.name
   ports {
     internal = 3000
     external = 3000
