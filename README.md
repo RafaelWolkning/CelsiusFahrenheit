@@ -172,3 +172,4 @@ O pipeline é acionado automaticamente após o push.
 
 - Rafael Wolkning
 - Lucas Aita
+- Guilherme Rohrbacher
